@@ -34,6 +34,10 @@ class ManagedProcess implements ProcessableInterface
     /** @var Boolean */
     private $hasRun = false;
 
+    /**
+     * @param ProcessableInterface $process
+     * @param int                  $executions
+     */
     public function __construct(ProcessableInterface $process, $executions = 1)
     {
         $this->process = $process;
@@ -84,6 +88,8 @@ class ManagedProcess implements ProcessableInterface
      * Retries the last execution.
      *
      * @return ManagedProcess
+     *
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
      */
     public function retry()
     {

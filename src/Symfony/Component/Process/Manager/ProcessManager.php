@@ -48,6 +48,12 @@ class ProcessManager implements ProcessableInterface, \Countable
     /** @var ManagedProcess[] */
     private $processes = array();
 
+    /**
+     * @param LoggerInterface $logger
+     * @param int             $maxParallel
+     * @param int             $timeoutStrategy
+     * @param int $failureStrategy
+     */
     public function __construct(LoggerInterface $logger = null, $maxParallel = null, $timeoutStrategy = self::STRATEGY_ABORT, $failureStrategy = self::STRATEGY_ABORT)
     {
         $this->isDaemon = false;
