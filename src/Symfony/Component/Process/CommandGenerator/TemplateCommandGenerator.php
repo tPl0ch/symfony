@@ -2,7 +2,7 @@
 /**
  * @author Thomas Ploch <thomas.ploch@meinfernbus.de>
  */
-namespace Symfony\Component\Process\Provider\CommandGenerator;
+namespace Symfony\Component\Process\CommandGenerator;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -10,7 +10,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 /**
  * Class TemplateCommandGenerator
  */
-class TemplateCommandGenerator implements CommandGeneratorInterface
+class TemplateCommandGenerator extends CommandGenerator
 {
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessor
@@ -134,7 +134,9 @@ class TemplateCommandGenerator implements CommandGeneratorInterface
 
         return $this->processedProperties = array_map(
             function ($data) use ($commandData, $accessor) {
-                return $accessor->getValue($commandData, $data);
+                return $this->escapeArgument(
+                    $accessor->getValue($commandData, $data)
+                );
             },
             array_values($this->placeholders)
         );

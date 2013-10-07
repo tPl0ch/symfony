@@ -11,8 +11,11 @@
 
 namespace Symfony\Component\Process;
 
+use Symfony\Component\Process\CommandGenerator\CommandGenerator;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 use Symfony\Component\Process\Exception\LogicException;
+use Symfony\Component\Process\CommandGenerator\CommandGeneratorInterface;
+use Symfony\Component\Process\CommandGenerator\DefaultCommandGenerator;
 
 /**
  * Process builder.
@@ -29,8 +32,9 @@ class ProcessBuilder
     private $options;
     private $inheritEnv;
     private $prefix = array();
+    private $cmdGenerator;
 
-    public function __construct(array $arguments = array())
+    public function __construct(array $arguments = array(), CommandGeneratorInterface $cmdGenerator = null)
     {
         $this->arguments = $arguments;
 
@@ -38,6 +42,10 @@ class ProcessBuilder
         $this->options = array();
         $this->env = array();
         $this->inheritEnv = true;
+        if (null === $cmdGenerator) {
+            $cmdGenerator = DefaultCommandGenerator::create();
+        }
+        $this->cmdGenerator = $cmdGenerator;
     }
 
     public static function create(array $arguments = array())
@@ -152,6 +160,26 @@ class ProcessBuilder
         return $this;
     }
 
+    /**
+     * @param CommandGeneratorInterface $cmdGenerator
+     *
+     * @return ProcessBuilder
+     */
+    public function setCmdGenerator(CommandGeneratorInterface $cmdGenerator)
+    {
+        $this->cmdGenerator = $cmdGenerator;
+
+        return $this;
+    }
+
+    /**
+     * @return CommandGeneratorInterface
+     */
+    public function getCmdGenerator()
+    {
+        return $this->cmdGenerator;
+    }
+
     public function getProcess()
     {
         if (0 === count($this->prefix) && 0 === count($this->arguments)) {
@@ -161,7 +189,7 @@ class ProcessBuilder
         $options = $this->options;
 
         $arguments = array_merge($this->prefix, $this->arguments);
-        $script = implode(' ', array_map(array(__NAMESPACE__.'\\ProcessUtils', 'escapeArgument'), $arguments));
+        $script = $this->getCmdGenerator()->generate($arguments);
 
         if ($this->inheritEnv) {
             // include $_ENV for BC purposes 

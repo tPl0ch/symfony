@@ -2,11 +2,11 @@
 /**
  * @author Thomas Ploch <thomas.ploch@meinfernbus.de>
  */
-namespace Symfony\Component\Process\Provider;
+namespace Symfony\Component\Process;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessProviderInterface;
-use Symfony\Component\Process\Provider\CommandGenerator\CommandGeneratorInterface;
+use Symfony\Component\Process\CommandGenerator\CommandGeneratorInterface;
 
 /**
  * Class ProcessProvider
@@ -29,9 +29,14 @@ abstract class ProcessProvider implements ProcessProviderInterface
     private $currentProcess;
 
     /**
-     * @var \Symfony\Component\Process\Provider\CommandGenerator\CommandGeneratorInterface
+     * @var \Symfony\Component\Process\CommandGenerator\CommandGeneratorInterface
      */
     private $commandGenerator;
+
+    /**
+     * @var \Symfony\Component\Process\ProcessBuilder
+     */
+    private $processBuilder;
 
     /**
      * @var array
@@ -70,6 +75,14 @@ abstract class ProcessProvider implements ProcessProviderInterface
     public function getCommandGenerator()
     {
         return $this->commandGenerator;
+    }
+
+    /**
+     * @return \Symfony\Component\Process\ProcessBuilder
+     */
+    public function getProcessBuilder()
+    {
+        return $this->processBuilder;
     }
 
     /**

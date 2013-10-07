@@ -2,14 +2,14 @@
 /**
  * @author Thomas Ploch <thomas.ploch@meinfernbus.de>
  */
-namespace Symfony\Component\Process\Provider\CommandGenerator;
+namespace Symfony\Component\Process\CommandGenerator;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
  * Class ExpressionCommandGenerator
  */
-class ExpressionCommandGenerator implements CommandGeneratorInterface
+class ExpressionCommandGenerator extends CommandGenerator
 {
     /**
      * @var string
@@ -22,8 +22,8 @@ class ExpressionCommandGenerator implements CommandGeneratorInterface
     private $language;
 
     /**
-     * @param string             $expression
-     * @param ExpressionLanguage $language
+     * @param \Symfony\Component\ExpressionLanguage\Expression|string $expression
+     * @param ExpressionLanguage                                      $language
      *
      * @return ExpressionCommandGenerator
      */
@@ -33,8 +33,8 @@ class ExpressionCommandGenerator implements CommandGeneratorInterface
     }
 
     /**
-     * @param string             $expression
-     * @param ExpressionLanguage $language
+     * @param \Symfony\Component\ExpressionLanguage\Expression|string $expression
+     * @param ExpressionLanguage                                      $language
      */
     public function __construct($expression = null, ExpressionLanguage $language = null)
     {
@@ -71,11 +71,11 @@ class ExpressionCommandGenerator implements CommandGeneratorInterface
     }
 
     /**
-     * @param string $expression
+     * @param \Symfony\Component\ExpressionLanguage\Expression|string $expression
      */
     public function setExpression($expression)
     {
-        $this->expression = (string) $expression;
+        $this->expression = $expression;
     }
 
     /**

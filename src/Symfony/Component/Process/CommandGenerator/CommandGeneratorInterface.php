@@ -2,7 +2,7 @@
 /**
  * @author Thomas Ploch <thomas.ploch@meinfernbus.de>
  */
-namespace Symfony\Component\Process\Provider\CommandGenerator;
+namespace Symfony\Component\Process\CommandGenerator;
 
 /**
  * Interface CommandGeneratorInterface

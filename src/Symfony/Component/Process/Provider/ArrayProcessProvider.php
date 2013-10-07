@@ -5,7 +5,8 @@
 namespace Symfony\Component\Process\Provider;
 
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Provider\CommandGenerator\CommandGeneratorInterface;
+use Symfony\Component\Process\ProcessProvider;
+use Symfony\Component\Process\CommandGenerator\CommandGeneratorInterface;
 
 /**
  * Class ArrayProcessProvider
@@ -55,7 +56,7 @@ class ArrayProcessProvider extends ProcessProvider
         }
 
         return new Process(
-            $this->getCommandGenerator()->generate($nextItem),
+            $this->getCommandGenerator()->generate($nextItem, $this),
             $defaults['cwd'],
             $defaults['env'],
             $defaults['stdin'],
